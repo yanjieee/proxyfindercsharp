@@ -125,7 +125,9 @@ namespace ProxyFinder
                             {
                                 site.retryCount++;
                                 item.SubItems[2].Text = String.Format("第{0}次重试", site.retryCount);
-                                new Thread(new ThreadStart(site.run)).Start();
+                                Thread thread = new Thread(new ThreadStart(site.run));
+                                thread.IsBackground = true;
+                                thread.Start();
                                 return;
                             }
 
@@ -284,6 +286,7 @@ namespace ProxyFinder
                     site.onFindResultEvent += onFind;
                     site.retryCount = 0;
                     Thread th = new Thread(new ThreadStart(site.run));
+                    th.IsBackground = true;
                     th.Start();
                 }
             }
