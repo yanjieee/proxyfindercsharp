@@ -1,0 +1,12 @@
+#http://www.cnproxy.com
+#http://samair.ru/proxy/
+#http://www.proxyworld.us/index.php?forums/anonymous-http.4/
+http://forum.z27315.com/forum/2-%E5%85%8D%E8%B4%B9%E8%B5%84%E6%BA%90/
+http://proxyserver4free.com/index.html
+#http://23.19.43.201/qqbb.php
+http://www.proxyfire.net/forum/forumdisplay.php?f=14
+http://www.youdaili.cn/Daili/http/
+#http://cn.yunproxy.com/apilist/uid/2658/api_format/2/country/US,CA,MX,CR,PA,CU,JM,HT,PR,GB,FR,DE,RU,FI,SE,NO,IS,DK,EE,LT,UA,CZ,SK,AT,CH,IE,NL,BE,RO,BG,GR,SI,HR,IT,ES,PT,PL,JP,KR,KP,IN,TR,IL,MN,AF,KH,ID,LA,MM,MY,PH,SG,TH,VN,SY,MV,PK,IR,KZ,UZ,BH,KW,QA,SA,AE,IQ,AU,NZ,BR,AR,CL,UY,PY,CO,VE,EC,PE,ZA,CG,LR,CM,SO,EG,LY,MA,ET,DZ/
+#http://myplantblog.com/MaxiProxies.php
+#http://216.244.80.43/?username=Adminss&passwd=H5.lfgGfd
+#http://kingproxies.com/api/v1/proxies.txt?key=f858c63f2e4f0ef6fed4eca6a53a7e&limit=1000&test=0
