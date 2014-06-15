@@ -11,13 +11,15 @@ namespace ProxyFinder
 {
     public partial class MainForm : Form
     {
+        public const Boolean isDebug = true;
+
         private Site[] mySites = new Site[]{    //在这里加入新写的继承site的类
                 new _216_site(),  
                 new qqbb_site(),
                 new yunproxy_site(),
-                new Cnproxy_site(),
-                new Samair_site(),
-                new Proxyworld_site(),
+                //new Cnproxy_site(),
+                //new Samair_site(),
+                //new Proxyworld_site(),
                 new myplantblog_site(),
                 new kingproxies_site(),
             };
@@ -56,7 +58,17 @@ namespace ProxyFinder
                     item.Checked = false;
                 }
                 listView1.Items.Add(item);
+                if (isDebug)
+                {
+                    item.Checked = false;
+                }
             }
+            if (isDebug)
+            {
+                textBox3.Text = "C:\\me.asp";
+                textBox4.Text = "C:\\person.html";
+            }
+            checkBox2.Checked = true;
             timer1.Start();
         }
 
@@ -130,8 +142,8 @@ namespace ProxyFinder
                                 thread.Start();
                                 return;
                             }
-
-                            if (isSuccess)
+                            
+                            if (isSuccess && site.getProxys() != null && site.getProxys().Count != 0)
                             {
                                 item.SubItems[2].Text = site.getProxys().Count.ToString();
 
@@ -147,10 +159,12 @@ namespace ProxyFinder
                                         {
                                             all_me_proxys_list.Add(p);
                                         }
-                                        if (!checkBox1.Checked && (p.type == eProxyType.SOCKS4 || p.type == eProxyType.SOCKS5))
+                                        if (checkBox1.Checked && (p.type == eProxyType.SOCKS4 || p.type == eProxyType.SOCKS5))
                                         {
+                                            all_proxys.Add(p);
+                                            all_string_proxys.Add(p.toIpString());
                                         }
-                                        else
+                                        else if (checkBox2.Checked && (p.type == eProxyType.HTTP))
                                         {
                                             all_proxys.Add(p);
                                             all_string_proxys.Add(p.toIpString());
@@ -197,6 +211,13 @@ namespace ProxyFinder
                         checked_sites.Remove(site);
                         if (checked_sites.Count == 0)
                         {
+                            if (all_proxys == null || all_proxys.Count == 0)
+                            {
+                                label1.Text = "未发现任何代理";
+                                button1.Enabled = true;
+                                listView1.Enabled = true;
+                                return;
+                            }
                             saveME();
                             if (isProxyJudgerUrlFileExist)
                             {
@@ -204,13 +225,18 @@ namespace ProxyFinder
                                 progressBar1.Maximum = all_proxys.Count;
                                 ThreadPool.SetMaxThreads(int.Parse(textBox1.Text), 512);
                                 judgedCount = 0;
+                                FileStream fs = new FileStream("forPE.txt", FileMode.Create);
+                                StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
+                                
                                 foreach (Proxy p in all_proxys)
                                 {
+                                    sw.WriteLine(p.toString());
                                     ProxyJudger pj = new ProxyJudger(p);
                                     pj.onJudgeDone += onJudgeDone;
                                     ThreadPool.QueueUserWorkItem(new WaitCallback(pj.doProxyJudge), int.Parse(textBox2.Text) * 1000);
                                 }
-
+                                sw.Close();
+                                fs.Close();
 //                                 progressBar1.Maximum = all_http_proxys_list.Count;
 //                                 ThreadPool.SetMaxThreads(int.Parse(textBox1.Text), 512);
 //                                 //ThreadPool.SetMaxThreads(1, 512);
@@ -225,6 +251,8 @@ namespace ProxyFinder
                             else
                             {
                                 label1.Text = "完成（未验证）";
+                                button1.Enabled = true;
+                                listView1.Enabled = true;
                             }
                         }
                     }
@@ -262,7 +290,7 @@ namespace ProxyFinder
             }
             else
             {
-                FileStream fs = new FileStream("proxyjudger.txt", FileMode.Create);
+                FileStream fs = new FileStream("proxyjudger.txt", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
                 StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
                 sw.WriteLine(textBox5.Text);
                 sw.Close();

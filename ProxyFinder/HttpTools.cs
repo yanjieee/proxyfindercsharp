@@ -101,7 +101,7 @@ namespace ProxyFinder
                 request.UserAgent = "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.89 Safari/537.1";
                 request.Timeout = time_out;
                 request.Headers.Add("Accept-Encoding", "gzip, deflate");
-                if (_proxy == null || _proxy.type == eProxyType.HTTP)
+                if (_proxy != null)
                 {
                     try
                     {

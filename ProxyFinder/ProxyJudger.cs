@@ -45,7 +45,7 @@ namespace ProxyFinder
             if (_proxy.level != eProxyLevel.BAD)
             {
                 //判断国家
-                content = _httpTools.GetPage("http://myplantblog.com/geoip.php", System.Text.Encoding.UTF8, timeout);
+                content = _httpTools.GetPage("http://myplantblog.com/geoip2.php", System.Text.Encoding.UTF8, timeout);
                 if (content != "" && content.IndexOf("RUN GEOIP SUCCESS") != -1)
                 {
                     if (content.Split('|')[0] != "")
@@ -59,7 +59,10 @@ namespace ProxyFinder
                 }
                 else
                 {
-                    _proxy.countryCode = "TW";
+                    if (_proxy.countryCode == null || _proxy.countryCode == "")
+                    {
+                        _proxy.countryCode = "TW";
+                    } 
                 }
             }
 
@@ -74,7 +77,9 @@ namespace ProxyFinder
         private string getProxyJudgeUrl() 
         {
             StreamReader sr = new StreamReader("proxyjudger.txt");
-            return sr.ReadLine();
+            String url = sr.ReadLine();
+            sr.Close();
+            return url;
         }
     }
 }
