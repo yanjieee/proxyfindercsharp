@@ -52,17 +52,6 @@ namespace ProxyFinder
                     {
                         _proxy.countryCode = content.Split('|')[0];
                     }
-                    else
-                    {
-                        _proxy.countryCode = "TW";
-                    }
-                }
-                else
-                {
-                    if (_proxy.countryCode == null || _proxy.countryCode == "")
-                    {
-                        _proxy.countryCode = "TW";
-                    } 
                 }
             }
 
