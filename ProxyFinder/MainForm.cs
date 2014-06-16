@@ -11,7 +11,7 @@ namespace ProxyFinder
 {
     public partial class MainForm : Form
     {
-        public const Boolean isDebug = true;
+        public const Boolean isDebug = false;
 
         private Site[] mySites = new Site[]{    //在这里加入新写的继承site的类
                 new _216_site(),  
