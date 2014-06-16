@@ -45,6 +45,12 @@ namespace ProxyFinder
             if (_proxy.level != eProxyLevel.BAD)
             {
                 //判断国家
+                content = getCountryCodeByGeo(_proxy.ip);
+                if (content != "--")
+                {
+                    _proxy.countryCode = content;
+                }
+                /*
                 content = _httpTools.GetPage("http://myplantblog.com/geoip2.php", System.Text.Encoding.UTF8, timeout);
                 if (content != "" && content.IndexOf("RUN GEOIP SUCCESS") != -1)
                 {
@@ -53,6 +59,7 @@ namespace ProxyFinder
                         _proxy.countryCode = content.Split('|')[0];
                     }
                 }
+                */
             }
 
 
@@ -62,6 +69,21 @@ namespace ProxyFinder
             }
         }
 
+        /// <summary>
+        /// 获取国家代码，如果失败，返回"--"
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <returns></returns>
+        public String getCountryCodeByGeo(String ip)
+        {
+            //string GeoipDbPath = "/usr/local/share/GeoIP/";
+            string GeoipDb = "GeoIP.dat";
+            //open the database
+            LookupService ls = new LookupService(GeoipDb, LookupService.GEOIP_MEMORY_CACHE);
+            //get country of the ip address
+            Country c = ls.getCountry(ip);
+            return c.getCode();
+        }
 
         private string getProxyJudgeUrl() 
         {

@@ -64,6 +64,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Geo\Country.cs" />
+    <Compile Include="Geo\DatabaseInfo.cs" />
+    <Compile Include="Geo\Location.cs" />
+    <Compile Include="Geo\LookupService.cs" />
+    <Compile Include="Geo\Region.cs" />
+    <Compile Include="Geo\RegionName.cs" />
     <Compile Include="HttpTools.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
