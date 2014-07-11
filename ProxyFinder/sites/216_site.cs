@@ -27,6 +27,10 @@ namespace ProxyFinder.sites
                 foreach (string str_proxy in str_proxys)
                 {
                     string[] tmp = str_proxy.Split('|');
+                    if (tmp[0] == "")
+                    {
+                        continue;
+                    }
                     if (tmp.Length < 3)
                     {
                         if (str_proxy.IndexOf("ransparent") != -1)
