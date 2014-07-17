@@ -22,6 +22,7 @@ namespace ProxyFinder
                 //new Proxyworld_site(),
                 new myplantblog_site(),
                 new kingproxies_site(),
+                new eemmuu_site(),
             };
 
         private List<Proxy> all_me_proxys_list = new List<Proxy>();
