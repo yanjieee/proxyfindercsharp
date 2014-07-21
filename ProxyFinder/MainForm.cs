@@ -23,6 +23,7 @@ namespace ProxyFinder
                 new myplantblog_site(),
                 new kingproxies_site(),
                 new eemmuu_site(),
+                new qianggeEmail(),
             };
 
         private List<Proxy> all_me_proxys_list = new List<Proxy>();

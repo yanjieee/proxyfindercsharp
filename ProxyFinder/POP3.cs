@@ -6,7 +6,7 @@ using System.IO;
 using System.Data; 
 using System.Text;
 
-namespace EmailReceiver
+namespace ProxyFinder
 {
     class POP3
     {
@@ -39,6 +39,28 @@ namespace EmailReceiver
             }
             if (_Client.Error.Length != 0) throw new Exception("错误信息!" + _Client.Error);
             return _Client.MailDataTable;
+        }
+
+        /// <summary>
+        /// 获取Mail数量
+        /// </summary>
+        /// <param name="p_Name"></param>
+        /// <param name="p_PassWord"></param>
+        /// <returns></returns>
+        public int GetMailCount(string p_Name, string p_PassWord)
+        {
+            POP3Client _Client = new POP3Client();
+            _Client.UserName = p_Name;
+            _Client.PassWord = p_PassWord;
+            _Client.Client = new TcpClient();
+            _Client.isReadCount = true;
+            _Client.Client.BeginConnect(m_Address, m_Port, new AsyncCallback(OnConnectRequest), _Client);
+            while (!_Client.ReturnEnd)
+            {
+                System.Windows.Forms.Application.DoEvents();
+            }
+            if (_Client.Error.Length != 0) throw new Exception("错误信息!" + _Client.Error);
+            return _Client.MailDataTable.Rows.Count;
         }
 
 
@@ -84,6 +106,8 @@ namespace EmailReceiver
             public bool ReadEnd = false;
 
             public int ReadIndex = -1;
+
+            public bool isReadCount = false;
 
 
             public POP3Client()
@@ -139,6 +163,12 @@ namespace EmailReceiver
                                 string[] _MaliSize = _List[i].Split(' ');
                                 MailDataTable.Rows.Add(new object[] { _MaliSize[0], _MaliSize[1] });
                             }
+                            if (isReadCount)
+                            {
+                                //如果只是读取数量，到这里就结束了
+                                ReturnEnd = true;
+                                return System.Text.Encoding.ASCII.GetBytes("QUIT");
+                            }
                             if (MailDataTable.Rows.Count == 0)
                             {
                                 ReturnEnd = true;
@@ -181,6 +211,8 @@ namespace EmailReceiver
                                 return System.Text.Encoding.ASCII.GetBytes("TOP " + m_TOPIndex.ToString() + " 0\r\n");
                             }
                         case 6:
+                            string from = GetTextType(_Value, "From:", ">");
+                            MailTable.Rows.Add(new object[] { "From", from });
                             GetMailText(_Value);
                             ReturnEnd = true;
                             return System.Text.Encoding.ASCII.GetBytes("QUIT");
@@ -241,6 +273,11 @@ namespace EmailReceiver
                 if (_ConvertType.Length == 0)
                 {
                     _ConvertType = GetTextType(p_Mail, "\r\nContent-Type: ", "\r");
+                }
+                string from = GetTextType(p_Mail, "From:", ">");
+                if (from.Length != 0)
+                {
+                     
                 }
                 int _StarIndex = -1;
                 int _EndIndex = -1;
