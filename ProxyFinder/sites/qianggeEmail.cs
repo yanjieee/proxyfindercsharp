@@ -19,16 +19,17 @@ namespace ProxyFinder.sites
         private string _user = "EmailReceiver2014";
         private string _pwd = "er123456";
 
-        private int _count = 5; //读5封邮件
+        private const int EMAIL_COUNT = 5;  //读5封邮件
 
         public override void run()
         {
+            int readCount = EMAIL_COUNT;
             try
             {
                 string html = "";
                 int count = _pop3.GetMailCount(_user, _pwd);
                 DataTable a = _pop3.GetMailTable(_user, _pwd);
-                while(_count > 0)
+                while (readCount > 0)
                 {
                     DataTable mail = _pop3.GetMail(_user, _pwd, count);
                     if (mail.Rows[0][1].ToString().Contains("proxy02@qq.com"))  //强哥的邮箱
@@ -41,7 +42,7 @@ namespace ProxyFinder.sites
                     {
                         break;
                     }
-                    _count--;
+                    readCount--;
                 }
                 if (html.Length > 0)
                 {
