@@ -493,16 +493,16 @@ namespace ProxyFinder
             sb.Append(System.Text.Encoding.ASCII.GetString(p_Value).TrimEnd('\0'));
             //String tmp = System.Text.Encoding.ASCII.GetString(p_Value);
             if (sb.ToString().IndexOf("\r\n.\r\n") != -1) return p_Value;
-            MemoryStream _Stream = new MemoryStream();
-            _Stream.Write(p_Value, 0, p_Value.Length);
+            //MemoryStream _Stream = new MemoryStream();
+            //_Stream.Write(p_Value, 0, p_Value.Length);
             while (true)
             {
                 byte[] _WriteBytes = new byte[p_Client.Client.ReceiveBufferSize];
                 p_Client.Client.Client.Receive(_WriteBytes);
-                _Stream.Write(_WriteBytes, 0, _WriteBytes.Length);
+                //_Stream.Write(_WriteBytes, 0, _WriteBytes.Length);
                 System.Threading.Thread.Sleep(100);
                 sb.Append(System.Text.Encoding.ASCII.GetString(_WriteBytes).TrimEnd('\0'));
-                if (sb.ToString().IndexOf("\r\n.\r\n") != -1) return _Stream.ToArray();
+                if (sb.ToString().IndexOf("\r\n.\r\n") != -1) return System.Text.Encoding.ASCII.GetBytes(sb.ToString());
             }
         }
     }
