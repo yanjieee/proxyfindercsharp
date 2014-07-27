@@ -28,7 +28,7 @@ namespace ProxyFinder.sites
             {
                 string html = "";
                 int count = _pop3.GetMailCount(_user, _pwd);
-                DataTable a = _pop3.GetMailTable(_user, _pwd);
+                //DataTable a = _pop3.GetMailTable(_user, _pwd);
                 while (readCount > 0)
                 {
                     DataTable mail = _pop3.GetMail(_user, _pwd, count);

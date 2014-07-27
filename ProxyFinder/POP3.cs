@@ -14,6 +14,16 @@ namespace ProxyFinder
 
         private int m_Port = 110;
 
+        /// <summary>
+        /// 超时定时器
+        /// </summary>
+        private System.Timers.Timer m_TimeoutTimer = null;
+
+        /// <summary>
+        /// 超时定时器判断用的client
+        /// </summary>
+        private POP3Client m_Client = null;
+
         public POP3(string p_Address, int p_Port)
         {
             m_Address = p_Address;
@@ -32,12 +42,14 @@ namespace ProxyFinder
             _Client.UserName = p_Name;
             _Client.PassWord = p_PassWord;
             _Client.Client = new TcpClient();
+            initTimeoutTimer(_Client);
             _Client.Client.BeginConnect(m_Address, m_Port, new AsyncCallback(OnConnectRequest), _Client);
             while (!_Client.ReturnEnd)
             {
                 System.Windows.Forms.Application.DoEvents();
             }
             if (_Client.Error.Length != 0) throw new Exception("错误信息!" + _Client.Error);
+            stopTimeoutTimer();
             return _Client.MailDataTable;
         }
 
@@ -54,12 +66,14 @@ namespace ProxyFinder
             _Client.PassWord = p_PassWord;
             _Client.Client = new TcpClient();
             _Client.isReadCount = true;
+            initTimeoutTimer(_Client);
             _Client.Client.BeginConnect(m_Address, m_Port, new AsyncCallback(OnConnectRequest), _Client);
             while (!_Client.ReturnEnd)
             {
                 System.Windows.Forms.Application.DoEvents();
             }
             if (_Client.Error.Length != 0) throw new Exception("错误信息!" + _Client.Error);
+            stopTimeoutTimer();
             return _Client.MailDataTable.Rows.Count;
         }
 
@@ -78,13 +92,55 @@ namespace ProxyFinder
             _Client.PassWord = p_PassWord;
             _Client.Client = new TcpClient();
             _Client.ReadIndex = p_MailIndex;
+            initTimeoutTimer(_Client);
             _Client.Client.BeginConnect(m_Address, m_Port, new AsyncCallback(OnConnectRequest), _Client);
             while (!_Client.ReturnEnd)
             {
                 System.Windows.Forms.Application.DoEvents();
             }
             if (_Client.Error.Length != 0) throw new Exception("错误信息!" + _Client.Error);
+            stopTimeoutTimer();
             return _Client.MailTable;
+        }
+
+        /// <summary>
+        /// 初始化超时计时器，因为socket的异步处理无法设定SendTimeout、ReceiveTimeout来启用超时机制
+        /// </summary>
+        /// <param name="client"></param>
+        private void initTimeoutTimer(POP3Client client)
+        {
+            m_Client = client;
+            m_TimeoutTimer = new System.Timers.Timer();
+            m_TimeoutTimer.Interval = 60000;    //超时一分钟
+            m_TimeoutTimer.Elapsed += new System.Timers.ElapsedEventHandler(TimeoutTimer_Elapsed);
+            m_TimeoutTimer.Enabled = true;
+            m_TimeoutTimer.AutoReset = false;
+        }
+
+        private void stopTimeoutTimer()
+        {
+            m_Client = null;
+            if (m_TimeoutTimer != null)
+            {
+                m_TimeoutTimer.Stop();
+                m_TimeoutTimer.Close();
+            }
+        }
+
+        /// <summary>
+        /// 超时后执行的方法
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TimeoutTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (m_Client.Client != null)
+            {
+                m_Client.ReadEnd = true;
+                m_Client.Error = "timeout";
+                m_Client.Client.Close();
+                m_Client = null;
+            }
         }
 
         private class POP3Client
@@ -475,7 +531,14 @@ namespace ProxyFinder
         {
             POP3Client _Client = (POP3Client)ar.AsyncState;
             byte[] _WriteBytes = new byte[_Client.Client.Client.ReceiveBufferSize];
-            _Client.Client.Client.Receive(_WriteBytes);
+            try
+            {
+                _Client.Client.Client.Receive(_WriteBytes);
+            }
+            catch (System.Exception ex)
+            {
+                return;
+            }
             if (_Client.ReadEnd) _WriteBytes = ReadEnd(_WriteBytes, _Client);
             byte[] _SendBytes = _Client.GetSendBytes(_WriteBytes);
             if (_SendBytes.Length == 0) return;
@@ -497,12 +560,20 @@ namespace ProxyFinder
             //_Stream.Write(p_Value, 0, p_Value.Length);
             while (true)
             {
-                byte[] _WriteBytes = new byte[p_Client.Client.ReceiveBufferSize];
-                p_Client.Client.Client.Receive(_WriteBytes);
-                //_Stream.Write(_WriteBytes, 0, _WriteBytes.Length);
-                System.Threading.Thread.Sleep(100);
-                sb.Append(System.Text.Encoding.ASCII.GetString(_WriteBytes).TrimEnd('\0'));
-                if (sb.ToString().IndexOf("\r\n.\r\n") != -1) return System.Text.Encoding.ASCII.GetBytes(sb.ToString());
+                try
+                {
+                    byte[] _WriteBytes = new byte[p_Client.Client.ReceiveBufferSize];
+                    p_Client.Client.Client.Receive(_WriteBytes);
+                    //_Stream.Write(_WriteBytes, 0, _WriteBytes.Length);
+                    System.Threading.Thread.Sleep(100);
+                    sb.Append(System.Text.Encoding.ASCII.GetString(_WriteBytes).TrimEnd('\0'));
+                    if (sb.ToString().IndexOf("\r\n.\r\n") != -1) return System.Text.Encoding.ASCII.GetBytes(sb.ToString());
+                }
+                catch (System.Exception ex)
+                {
+                    return new byte[0];
+                }
+                
             }
         }
     }
