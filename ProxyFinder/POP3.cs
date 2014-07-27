@@ -136,6 +136,7 @@ namespace ProxyFinder
         {
             if (m_Client.Client != null)
             {
+                m_Client.ReturnEnd = true;
                 m_Client.ReadEnd = true;
                 m_Client.Error = "timeout";
                 m_Client.Client.Close();
@@ -529,20 +530,20 @@ namespace ProxyFinder
         /// <param name="ar"></param> 
         private void OnWrite(IAsyncResult ar)
         {
-            POP3Client _Client = (POP3Client)ar.AsyncState;
-            byte[] _WriteBytes = new byte[_Client.Client.Client.ReceiveBufferSize];
             try
             {
+                POP3Client _Client = (POP3Client)ar.AsyncState;
+                byte[] _WriteBytes = new byte[_Client.Client.Client.ReceiveBufferSize];
                 _Client.Client.Client.Receive(_WriteBytes);
+                if (_Client.ReadEnd) _WriteBytes = ReadEnd(_WriteBytes, _Client);
+                byte[] _SendBytes = _Client.GetSendBytes(_WriteBytes);
+                if (_SendBytes.Length == 0) return;
+                _Client.Client.Client.BeginSend(_SendBytes, 0, _SendBytes.Length, SocketFlags.None, new AsyncCallback(OnSend), _Client);
             }
             catch (System.Exception ex)
             {
                 return;
             }
-            if (_Client.ReadEnd) _WriteBytes = ReadEnd(_WriteBytes, _Client);
-            byte[] _SendBytes = _Client.GetSendBytes(_WriteBytes);
-            if (_SendBytes.Length == 0) return;
-            _Client.Client.Client.BeginSend(_SendBytes, 0, _SendBytes.Length, SocketFlags.None, new AsyncCallback(OnSend), _Client);
         }
 
         /// <summary> 
