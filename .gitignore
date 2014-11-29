@@ -3,3 +3,6 @@
 *.manifest
 *.resources
 *.Cache
+*.suo
+bin/
+obj/

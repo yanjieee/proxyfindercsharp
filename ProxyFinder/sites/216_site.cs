@@ -19,7 +19,7 @@ namespace ProxyFinder.sites
         {
             try
             {
-                string url = "http://216.244.80.43/?username=Adminss&passwd=H5.lfgGfd";
+                string url = "http://216.244.80.43/?username=Admin&passwd=537777168@qq.com";
                 string html = _httpTools.GetPage(url);
                 html = html.Replace("\r", "");
                 string[] str_proxys = html.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);

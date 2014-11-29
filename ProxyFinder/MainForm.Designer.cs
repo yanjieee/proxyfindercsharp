@@ -34,6 +34,8 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -43,25 +45,22 @@
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.checkedListBox2 = new System.Windows.Forms.CheckedListBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(292, 227);
+            this.button1.Location = new System.Drawing.Point(293, 241);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(121, 32);
+            this.button1.Size = new System.Drawing.Size(121, 45);
             this.button1.TabIndex = 1;
             this.button1.Text = "开始";
             this.button1.UseVisualStyleBackColor = true;
@@ -69,7 +68,7 @@
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(290, 201);
+            this.label1.Location = new System.Drawing.Point(293, 217);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(123, 24);
             this.label1.TabIndex = 4;
@@ -78,7 +77,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(292, 175);
+            this.progressBar1.Location = new System.Drawing.Point(295, 191);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(121, 23);
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
@@ -91,16 +90,36 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.textBox5);
+            this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.textBox4);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.textBox3);
             this.groupBox1.Location = new System.Drawing.Point(12, 188);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(272, 71);
+            this.groupBox1.Size = new System.Drawing.Size(272, 92);
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "保存路径";
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(63, 69);
+            this.textBox5.MaxLength = 0;
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(202, 21);
+            this.textBox5.TabIndex = 20;
+            this.textBox5.Text = "C:\\inetpub\\wwwroot\\big.html";
+            // 
+            // label7
+            // 
+            this.label7.Location = new System.Drawing.Point(3, 72);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 12);
+            this.label7.TabIndex = 19;
+            this.label7.Text = "大流量:";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label6
             // 
@@ -146,10 +165,10 @@
             this.columnHeader1,
             this.columnHeader2});
             this.listView1.GridLines = true;
-            this.listView1.Location = new System.Drawing.Point(12, 5);
+            this.listView1.Location = new System.Drawing.Point(18, 11);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(267, 177);
+            this.listView1.Size = new System.Drawing.Size(261, 171);
             this.listView1.TabIndex = 16;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -171,30 +190,18 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.checkBox2);
-            this.groupBox2.Controls.Add(this.checkBox1);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.textBox2);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.textBox1);
             this.groupBox2.Controls.Add(this.checkedListBox2);
-            this.groupBox2.Location = new System.Drawing.Point(285, 5);
+            this.groupBox2.Location = new System.Drawing.Point(285, 13);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(140, 164);
+            this.groupBox2.Size = new System.Drawing.Size(140, 138);
             this.groupBox2.TabIndex = 17;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "验证设置";
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(13, 139);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(54, 16);
-            this.checkBox1.TabIndex = 16;
-            this.checkBox1.Text = "SOCKS";
-            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -239,7 +246,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(62, 21);
             this.textBox1.TabIndex = 11;
-            this.textBox1.Text = "100";
+            this.textBox1.Text = "150";
             // 
             // checkedListBox2
             // 
@@ -253,40 +260,22 @@
             this.checkedListBox2.Size = new System.Drawing.Size(123, 52);
             this.checkedListBox2.TabIndex = 10;
             // 
-            // label7
+            // checkBox1
             // 
-            this.label7.Location = new System.Drawing.Point(3, 276);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(66, 12);
-            this.label7.TabIndex = 20;
-            this.label7.Text = "验证地址:";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(75, 273);
-            this.textBox5.MaxLength = 0;
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(350, 21);
-            this.textBox5.TabIndex = 19;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(80, 139);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(48, 16);
-            this.checkBox2.TabIndex = 17;
-            this.checkBox2.Text = "HTTP";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(306, 162);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(102, 16);
+            this.checkBox1.TabIndex = 18;
+            this.checkBox1.Text = "是否验证socks";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(437, 306);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.textBox5);
+            this.ClientSize = new System.Drawing.Size(437, 291);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.groupBox1);
@@ -297,7 +286,6 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "ProxyFinder";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -329,10 +317,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.CheckedListBox checkedListBox2;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox2;
     }
 }
 

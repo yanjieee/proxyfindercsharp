@@ -11,17 +11,13 @@ namespace ProxyFinder
 {
     public partial class MainForm : Form
     {
-        public const Boolean isDebug = false;
-
         private Site[] mySites = new Site[]{    //在这里加入新写的继承site的类
                 new _216_site(),  
                 new qqbb_site(),
                 new yunproxy_site(),
-                //new Cnproxy_site(),
-                //new Samair_site(),
-                //new Proxyworld_site(),
                 new myplantblog_site(),
                 new kingproxies_site(),
+                new emutool_site(),
                 new eemmuu_site(),
                 new qianggeEmail(),
             };
@@ -60,17 +56,7 @@ namespace ProxyFinder
                     item.Checked = false;
                 }
                 listView1.Items.Add(item);
-                if (isDebug)
-                {
-                    item.Checked = false;
-                }
             }
-            if (isDebug)
-            {
-                textBox3.Text = "C:\\me.asp";
-                textBox4.Text = "C:\\person.html";
-            }
-            checkBox2.Checked = true;
             timer1.Start();
         }
 
@@ -94,21 +80,83 @@ namespace ProxyFinder
                     StreamWriter sw_http = new StreamWriter(fs_http, Encoding.UTF8);
                     foreach (Proxy p in all_proxys)
                     {
-                        if (checkedListBox2.GetItemChecked(0) && p.level == eProxyLevel.TRANSPARENT)
+                        if ((p.countryCode != "TW") 
+                            && (p.countryCode != "CN") 
+                            && (p.countryCode != "ID") 
+                            && (p.countryCode != "RU")
+                            && (p.countryCode != "US")
+                            && (p.countryCode != "KR")
+                            && (p.countryCode != "VN")
+                            && (p.countryCode != "RO")
+                            && (p.countryCode != "UA")
+                            && (p.countryCode != "SA")
+                            && (p.countryCode != "KH")
+                            && (p.countryCode != "AM")
+                            && (p.countryCode != "KZ")
+                            && (p.countryCode != "HK")
+                            && (p.countryCode != "LV")
+                            && (p.countryCode != "EC")
+                            && (p.countryCode != "HU")
+                            && (p.countryCode != "MY")
+                            && (p.countryCode != "ET")
+                            && (p.countryCode != "IN")
+                            && (p.countryCode != "TH"))
                         {
-                            sw_http.Write(p.toPersonString() + "\n");
-                        }
-                        else if (checkedListBox2.GetItemChecked(1) && p.level == eProxyLevel.ANONYMOUS)
-                        {
-                            sw_http.Write(p.toPersonString() + "\n");
-                        }
-                        else if (checkedListBox2.GetItemChecked(2) && p.level == eProxyLevel.HIGH_ANONYMITY)
-                        {
-                            sw_http.Write(p.toPersonString() + "\n");
-                        }
-                        
+                            if (checkedListBox2.GetItemChecked(0) && p.level == eProxyLevel.TRANSPARENT)
+                            {
+                                sw_http.Write(p.toPersonString() + "\n");
+                            }
+                            else if (checkedListBox2.GetItemChecked(1) && p.level == eProxyLevel.ANONYMOUS)
+                            {
+                                sw_http.Write(p.toPersonString() + "\n");
+                            }
+                            else if (checkedListBox2.GetItemChecked(2) && p.level == eProxyLevel.HIGH_ANONYMITY)
+                            {
+                                sw_http.Write(p.toPersonString() + "\n");
+                            }
+                        }                        
                     }
                     sw_http.Close();
+
+                    String file_path_big = textBox5.Text;
+                    FileStream fs_http_big = new FileStream(file_path_big, FileMode.Create);
+                    StreamWriter sw_http_big = new StreamWriter(fs_http_big, Encoding.UTF8);
+                    foreach (Proxy p in all_proxys)
+                    {
+                        if ((p.countryCode != "TW") 
+                            && (p.countryCode != "CN") 
+                            && (p.countryCode != "UA") 
+                            && (p.countryCode != "KR") 
+                            && (p.countryCode != "ID")
+                            && (p.countryCode != "IR")
+                            && (p.countryCode != "BG")
+                            && (p.countryCode != "KZ")
+                            && (p.countryCode != "AM")
+                            && (p.countryCode != "EG")
+                            && (p.countryCode != "EU")
+                            && (p.countryCode != "HK")
+                            && (p.countryCode != "TH")
+                            && (p.countryCode != "RU")
+                            && (p.countryCode != "IN")
+                            && (p.countryCode != "RO")
+                            && (p.countryCode != "VN"))
+                        {
+                            if (checkedListBox2.GetItemChecked(0) && p.level == eProxyLevel.TRANSPARENT)
+                            {
+                                sw_http_big.Write(p.toPersonString() + "\n");
+                            }
+                            else if (checkedListBox2.GetItemChecked(1) && p.level == eProxyLevel.ANONYMOUS)
+                            {
+                                sw_http_big.Write(p.toPersonString() + "\n");
+                            }
+                            else if (checkedListBox2.GetItemChecked(2) && p.level == eProxyLevel.HIGH_ANONYMITY)
+                            {
+                                sw_http_big.Write(p.toPersonString() + "\n");
+                            }
+                        }
+                    }
+                    sw_http_big.Close();
+
                     button1.Enabled = true;
                     listView1.Enabled = true;
                     timer1.Start();
@@ -144,8 +192,8 @@ namespace ProxyFinder
                                 thread.Start();
                                 return;
                             }
-                            
-                            if (isSuccess && site.getProxys() != null && site.getProxys().Count != 0)
+
+                            if (isSuccess)
                             {
                                 item.SubItems[2].Text = site.getProxys().Count.ToString();
 
@@ -161,12 +209,10 @@ namespace ProxyFinder
                                         {
                                             all_me_proxys_list.Add(p);
                                         }
-                                        if (checkBox1.Checked && (p.type == eProxyType.SOCKS4 || p.type == eProxyType.SOCKS5))
+                                        if (!checkBox1.Checked && (p.type == eProxyType.SOCKS4 || p.type == eProxyType.SOCKS5))
                                         {
-                                            all_proxys.Add(p);
-                                            all_string_proxys.Add(p.toIpString());
                                         }
-                                        else if (checkBox2.Checked && (p.type == eProxyType.HTTP))
+                                        else
                                         {
                                             all_proxys.Add(p);
                                             all_string_proxys.Add(p.toIpString());
@@ -213,13 +259,6 @@ namespace ProxyFinder
                         checked_sites.Remove(site);
                         if (checked_sites.Count == 0)
                         {
-                            if (all_proxys == null || all_proxys.Count == 0)
-                            {
-                                label1.Text = "未发现任何代理";
-                                button1.Enabled = true;
-                                listView1.Enabled = true;
-                                return;
-                            }
                             saveME();
                             if (isProxyJudgerUrlFileExist)
                             {
@@ -227,18 +266,13 @@ namespace ProxyFinder
                                 progressBar1.Maximum = all_proxys.Count;
                                 ThreadPool.SetMaxThreads(int.Parse(textBox1.Text), 512);
                                 judgedCount = 0;
-                                FileStream fs = new FileStream("forPE.txt", FileMode.Create);
-                                StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
-                                
                                 foreach (Proxy p in all_proxys)
                                 {
-                                    sw.WriteLine(p.toString());
                                     ProxyJudger pj = new ProxyJudger(p);
                                     pj.onJudgeDone += onJudgeDone;
                                     ThreadPool.QueueUserWorkItem(new WaitCallback(pj.doProxyJudge), int.Parse(textBox2.Text) * 1000);
                                 }
-                                sw.Close();
-                                fs.Close();
+
 //                                 progressBar1.Maximum = all_http_proxys_list.Count;
 //                                 ThreadPool.SetMaxThreads(int.Parse(textBox1.Text), 512);
 //                                 //ThreadPool.SetMaxThreads(1, 512);
@@ -253,8 +287,6 @@ namespace ProxyFinder
                             else
                             {
                                 label1.Text = "完成（未验证）";
-                                button1.Enabled = true;
-                                listView1.Enabled = true;
                             }
                         }
                     }
@@ -285,19 +317,6 @@ namespace ProxyFinder
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!File.Exists("proxyjudger.txt"))
-            {
-                MessageBox.Show("验证网址文件不存在，请检查应用程序目录下的proxyjudger.txt文件!");
-                isProxyJudgerUrlFileExist = false;
-            }
-            else
-            {
-                FileStream fs = new FileStream("proxyjudger.txt", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
-                StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
-                sw.WriteLine(textBox5.Text);
-                sw.Close();
-                fs.Close();
-            }
             label1.Text = "开始读取...";
             button1.Enabled = false;
             listView1.Enabled = false;
@@ -334,12 +353,7 @@ namespace ProxyFinder
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            if (File.Exists("proxyjudger.txt"))
-            {
-                StreamReader sr = new StreamReader("proxyjudger.txt");
-                textBox5.Text = sr.ReadLine();
-                sr.Close();
-            }
+
         }
     }
 }

@@ -107,6 +107,7 @@
     <Compile Include="sites\216_site.cs" />
     <Compile Include="sites\Cnproxy_site.cs" />
     <Compile Include="sites\eemmuu_site.cs" />
+    <Compile Include="sites\emutool_site.cs" />
     <Compile Include="sites\kingproxies_site.cs" />
     <Compile Include="sites\myplantblog_site.cs" />
     <Compile Include="sites\Proxyworld_site.cs" />

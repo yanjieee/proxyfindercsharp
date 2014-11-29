@@ -87,10 +87,7 @@ namespace ProxyFinder
 
         private string getProxyJudgeUrl() 
         {
-            StreamReader sr = new StreamReader("proxyjudger.txt");
-            String url = sr.ReadLine();
-            sr.Close();
-            return url;
+            return "http://121.199.31.193/proxyheader.php";
         }
     }
 }

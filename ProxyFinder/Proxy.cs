@@ -55,7 +55,7 @@ namespace ProxyFinder
 
         public String toPersonString()
         {
-            return ip + "|" + port.ToString() + "|" + PROXY_TYPE[(int)type] + "|" + countryCode;
+            return ip + "|" + port.ToString() + "|" + countryCode;
         }
 
         public String toMeString()

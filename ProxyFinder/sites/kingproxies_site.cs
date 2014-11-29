@@ -19,8 +19,7 @@ namespace ProxyFinder.sites
         {
             try
             {
-                string url = "http://kingproxies.com/api/v1/proxies.txt?key=f858c63f2e4f0ef6fed4eca6a53a7e&limit=1000&test=0";
-                //string url = "http://173.237.187.235/person.html";
+                string url = "http://www.goproxylist.com/service/getproxy.php?email=fishallonrachel@gmail.com&pass=mjmvvw&premium=yes&showcountry=no";
                 string html = _httpTools.GetPage(url);
                 html = html.Replace("\r", "");
                 string[] str_proxys = html.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
