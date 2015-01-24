@@ -12,14 +12,14 @@ namespace ProxyFinder
     public partial class MainForm : Form
     {
         private Site[] mySites = new Site[]{    //在这里加入新写的继承site的类
-                new _216_site(),  
+                //new _216_site(),  
                 new qqbb_site(),
-                new yunproxy_site(),
-                new myplantblog_site(),
-                new kingproxies_site(),
-                new emutool_site(),
+                //new yunproxy_site(),
+                //new myplantblog_site(),
+                //new kingproxies_site(),
+                //new emutool_site(),
                 new eemmuu_site(),
-                new qianggeEmail(),
+                //new qianggeEmail(),
             };
 
         private List<Proxy> all_me_proxys_list = new List<Proxy>();
@@ -72,7 +72,7 @@ namespace ProxyFinder
                 judgedCount ++;
                 progressBar1.Value = judgedCount;
                 label1.Text = "验证中（" + judgedCount.ToString() + "/" + all_proxys.Count.ToString() + "）";
-                if (judgedCount >= all_proxys.Count)
+                if (judgedCount >= progressBar1.Maximum)
                 {
                     label1.Text = "验证完成";
                     String file_path = textBox4.Text;
