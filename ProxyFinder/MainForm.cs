@@ -13,8 +13,8 @@ namespace ProxyFinder
     {
         private Site[] mySites = new Site[]{    //在这里加入新写的继承site的类
                 //new _216_site(),  
-                new qqbb_site(),
-                //new yunproxy_site(),
+                //new qqbb_site(),
+                new yunproxy_site(),
                 //new myplantblog_site(),
                 //new kingproxies_site(),
                 //new emutool_site(),
